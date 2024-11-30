@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>DineGuide - Make Reservation</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .reservation-container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 0 20px;
+        }
+
+        .page-title {
+            color: var(--color-brown);
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+
+        .reservation-form {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            color: var(--color-brown);
+            font-weight: bold;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+
+        .form-group select,
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #eee;
+            border-radius: 10px;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+
+        .form-group select:focus,
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--color-accent);
+            box-shadow: 0 0 0 3px rgba(245, 181, 83, 0.2);
+        }
+
+        .form-group select {
+            background-color: white;
+            cursor: pointer;
+        }
+
+        .submit-btn {
+            background: var(--color-accent);
+            color: var(--color-dark);
+            padding: 15px 30px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1em;
+            font-weight: 600;
+            width: 100%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(245, 181, 83, 0.3);
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .reservation-container {
+                margin: 30px auto;
+            }
+
+            .reservation-form {
+                padding: 20px;
+            }
+        }
+
+        /* Time and date input styling for better visibility */
+        input[type="date"],
+        input[type="time"] {
+            color: var(--color-dark);
+            font-family: inherit;
+        }
+
+        /* Number input styling */
+        input[type="number"] {
+    -moz-appearance: textfield; /* Firefox */
+    -webkit-appearance: none;   /* Chrome, Safari, Edge */
+            appearance: none;           /* Standard */
+        }
+
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <img src="img/logo.webp" alt="DineGuide Logo" class="logo">
+            <h1>DineGuide</h1>
+        </div>
+        
+        <nav class="nav-menu">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="form.html" class="active">Make Reservation</a></li>
+                <li><a href="my-reservations.html">My Reservations</a></li>
+                <li><a href="report.html">Reviews</a></li>
+            </ul>
+        </nav>
+        
+        <div class="auth-buttons">
+            <!-- Will be populated by updateAuthDisplay() -->
+        </div>
+    </header>
+
+    <div class="reservation-container">
+        <h1 class="page-title">Make a Reservation</h1>
+        <div class="reservation-form">
+            <form id="reservationForm">
+                <div class="form-group">
+                    <label for="restaurant">Restaurant</label>
+                    <select id="restaurant" name="restaurant" required>
+                        <!-- Options will be populated dynamically -->
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="date">Reservation Date</label>
+                    <input type="date" id="date" name="date" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="time">Time</label>
+                    <input type="time" id="time" name="time" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="guests">Number of Guests</label>
+                    <input type="number" id="guests" name="guests" min="1" max="10" value="1" required>
+                </div>
+
+                <button type="submit" class="submit-btn">Confirm Reservation</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="scripts.js"></script>
+    <script>
+        document.getElementById('reservationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = {
+                restaurantId: document.getElementById('restaurant').value,
+                date: document.getElementById('date').value,
+                time: document.getElementById('time').value,
+                guests: document.getElementById('guests').value
+            };
+
+            // Get existing reservations or initialize empty array
+            const reservations = JSON.parse(localStorage.getItem('reservations')) || [];
+            
+            // Add new reservation
+            reservations.push({
+                ...formData,
+                userId: JSON.parse(localStorage.getItem('currentUser')).email,
+                status: 'upcoming',
+                id: 'res_' + Date.now()
+            });
+            
+            // Save updated reservations
+            localStorage.setItem('reservations', JSON.stringify(reservations));
+            
+            alert('Reservation successful!');
+            window.location.href = 'my-reservations.html';
+        });
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', () => {
+            updateAuthDisplay();
+            initializeReservationForm();
+        });
+    </script>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About DineGuide</h3>
+                <p>Your ultimate dining companion for discovering and booking the perfect restaurant experience in Jeddah.</p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="form.html">Make Reservation</a></li>
+                    <li><a href="my-reservations.html">My Reservations</a></li>
+                    <li><a href="report.html">Reviews</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Team Members</h3>
+                <div class="team-members">
+                    <div class="team-member">
+                        <div class="team-member-icon">A</div>
+                        <span>Alaa</span>
+                    </div>
+                    <div class="team-member">
+                        <div class="team-member-icon">O</div>
+                        <span>Omar</span>
+                    </div>
+                    <div class="team-member">
+                        <div class="team-member-icon">F</div>
+                        <span>Fadwa</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 DineGuide. Made with ❤️ by JIC Students</p>
+        </div>
+    </footer>
+</body>
+</html>

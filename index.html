@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>DineGuide - Find Your Perfect Restaurant</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <img src="img/logo.webp" alt="DineGuide Logo" class="logo">
+            <h1>DineGuide</h1>
+        </div>
+        
+        <nav class="nav-menu">
+            <ul>
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="form.html">Make Reservation</a></li>
+                <li><a href="my-reservations.html">My Reservations</a></li>
+                <li><a href="report.html">Reviews</a></li>
+            </ul>
+        </nav>
+        
+        <div class="auth-buttons">
+            <a href="login.html" class="auth-btn">Sign In</a>
+            <a href="register.html" class="auth-btn">Sign Up</a>
+        </div>
+    </header>
+
+    <div class="search-and-filters">
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Search for restaurants...">
+        </div>
+
+        <div class="filters">
+            <select id="cuisineFilter">
+                <option value="">All Cuisines</option>
+                <option value="Italian">Italian</option>
+                <option value="Chinese">Chinese</option>
+                <option value="Mexican">Mexican</option>
+                <option value="Indonesian">Indonesian</option>
+                <option value="Thai">Thai</option>
+                <option value="Arabic">Arabic</option>
+                <option value="Burgers">Burgers</option>
+                <option value="Indian">Indian</option>
+            </select>
+            <select id="priceFilter">
+                <option value="">All Prices</option>
+                <option value="$">$</option>
+                <option value="$$">$$</option>
+                <option value="$$$">$$$</option>
+            </select>
+            <select id="ratingFilter">
+                <option value="">All Ratings</option>
+                <option value="4">4+ Stars</option>
+                <option value="3">3+ Stars</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="restaurant-grid" id="restaurantGrid">
+    </div>
+
+    <script src="scripts.js"></script>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About DineGuide</h3>
+                <p>Your ultimate dining companion for discovering and booking the perfect restaurant experience in Jeddah.</p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="form.html">Make Reservation</a></li>
+                    <li><a href="my-reservations.html">My Reservations</a></li>
+                    <li><a href="report.html">Reviews</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Team Members</h3>
+                <div class="team-members">
+                    <div class="team-member">
+                        <div class="team-member-icon">A</div>
+                        <span>Alaa</span>
+                    </div>
+                    <div class="team-member">
+                        <div class="team-member-icon">O</div>
+                        <span>Omar</span>
+                    </div>
+                    <div class="team-member">
+                        <div class="team-member-icon">F</div>
+                        <span>Fadwa</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 DineGuide. Made with ❤️ by JIC Students</p>
+        </div>
+    </footer>
+</body>
+</html>

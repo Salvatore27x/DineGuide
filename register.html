@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>DineGuide - Register</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .auth-form {
+            margin: 0 auto; /* Center the form */
+            width: 300px; /* Set a fixed width */
+            padding: 20px;
+        }
+        .auth-form button {
+            width: 100%; /* Make button width match the form */
+            padding: 10px;
+            background-color: #f0a500;
+            border: none;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .auth-form button:hover {
+            background-color: #d18b00;
+        }
+        .password-field {
+            position: relative;
+        }
+        .toggle-password {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <h2>Create Account</h2>
+        <form id="registerForm" class="auth-form">
+            <input type="text" id="username" placeholder="Username" required>
+            <input type="email" id="email" placeholder="Email" required>
+            <div class="password-field">
+                <input type="password" id="password" placeholder="Password" required>
+                <i class="fas fa-eye-slash toggle-password" onclick="togglePasswordVisibility('password', this)"></i>
+            </div>
+            <input type="tel" id="phone" placeholder="Phone Number">
+            <input type="text" id="location" placeholder="Location">
+            <button type="submit">Register</button>
+            <p>Already have an account? <a href="login.html">Login</a></p>
+            <p>Want to continue as guest? <a href="index.html">Click here</a></p>
+        </form>
+    </div>
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const newUser = {
+                username: document.getElementById('username').value,
+                email: document.getElementById('email').value,
+                password: document.getElementById('password').value,
+                phone: document.getElementById('phone').value,
+                location: document.getElementById('location').value
+            };
+            
+            // Get existing users or initialize empty array
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            
+            // Check if email already exists
+            if (users.some(user => user.email === newUser.email)) {
+                alert('Email already registered');
+                return;
+            }
+            
+            // Add new user
+            users.push(newUser);
+            
+            // Save updated users array
+            localStorage.setItem('users', JSON.stringify(users));
+            
+            // Auto login after registration
+            localStorage.setItem('currentUser', JSON.stringify(newUser));
+            
+            alert('Registration successful!');
+            window.location.href = 'index.html';
+        });
+
+        function togglePasswordVisibility(passwordId, icon) {
+            const passwordField = document.getElementById(passwordId);
+            const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordField.setAttribute('type', type);
+            icon.classList.toggle('fa-eye');
+            icon.classList.toggle('fa-eye-slash');
+        }
+    </script>
+</body>
+</html> 
